@@ -1,0 +1,561 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="robots" content="noindex,nofollow"><style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Client Evaluation Form</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cabin:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+/* Layout: a one-column phone form like a site-office carbon copy; yellow marks every field to fill, a rubber stamp marks approval. */
+:root{
+  --bg:#eef2f0;--surface:#ffffff;--ink:#14231f;--muted:#566863;--line:#cfd9d5;
+  --accent:#0b5d4e;--accent-ink:#ffffff;--accent-soft:#dcece7;--input:#fff8d2;--input-line:#d9c766;
+  --hot:#b3361e;--hot-soft:#fbe5df;--warm:#8a5a00;--warm-soft:#fbeecb;--cold:#28598f;--cold-soft:#e0ebf7;
+  --ok:#0b6b45;--ok-soft:#dbf1e6;--err:#b3261e;
+  --font:Candara,"Cabin","Segoe UI",system-ui,sans-serif;--mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#101715;--surface:#18221f;--ink:#e6efec;--muted:#9db0aa;--line:#31403b;
+  --accent:#4cc3a8;--accent-ink:#06211b;--accent-soft:#1c3a33;--input:#2f2b12;--input-line:#6d6222;
+  --hot:#f39a84;--hot-soft:#46211a;--warm:#e7bd62;--warm-soft:#3d2f10;--cold:#8fbdf0;--cold-soft:#1b2f47;
+  --ok:#6fd8a8;--ok-soft:#163528;--err:#f2958d;color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#101715;--surface:#18221f;--ink:#e6efec;--muted:#9db0aa;--line:#31403b;
+  --accent:#4cc3a8;--accent-ink:#06211b;--accent-soft:#1c3a33;--input:#2f2b12;--input-line:#6d6222;
+  --hot:#f39a84;--hot-soft:#46211a;--warm:#e7bd62;--warm-soft:#3d2f10;--cold:#8fbdf0;--cold-soft:#1b2f47;
+  --ok:#6fd8a8;--ok-soft:#163528;--err:#f2958d;color-scheme:dark}
+*{box-sizing:border-box}
+html{scroll-padding:70px 0 90px}
+body{background:var(--bg);color:var(--ink);font:11pt/1.45 var(--font);padding-bottom:calc(76px + env(safe-area-inset-bottom,0px))}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--surface)}
+.gut{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.wrap{max-width:720px;margin-inline:auto}
+header.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--surface);border-bottom:1px solid var(--line)}
+header.top .wrap{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-block:10px}
+h1{font-size:1.15rem;margin:0;font-weight:700;text-wrap:balance}
+h2{font-size:1.15rem;margin:0;text-wrap:balance}
+h3{font-size:.8rem;margin:0;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);font-weight:700}
+main{display:grid;gap:14px;padding-block:14px}
+.stack{display:grid;gap:14px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:14px;display:grid;gap:12px;min-width:0}
+.muted{color:var(--muted)}.small{font-size:.87rem}
+a.btn{display:inline-flex;align-items:center;justify-content:center;text-decoration:none;color:inherit}
+.login{max-width:420px;margin:8vh auto 0}
+.mono{font-family:var(--mono);font-size:.82rem;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+.row{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.btn{min-height:46px;padding:10px 16px;border-radius:6px;border:1px solid var(--line);background:var(--surface);font-weight:600}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.btn.danger{color:var(--err);border-color:var(--err)}
+.btn[disabled]{opacity:.55;cursor:default}
+.btn.sm{min-height:38px;padding:6px 12px;font-size:.9rem}
+.btns{display:flex;gap:10px;flex-wrap:wrap}.btns .btn{flex:1 1 140px}
+.link{background:none;border:0;padding:6px 0;color:var(--accent);font-weight:600;text-align:left}
+.rolebtn{border:1px solid var(--line);background:var(--bg);border-radius:6px;padding:7px 10px;font-size:.85rem;font-weight:600;white-space:nowrap}
+.field{display:grid;gap:5px;min-width:0}
+.field>label,.field>.lab{font-weight:600;font-size:.94rem}
+.req{color:var(--err)}
+.hint{font-size:.84rem;color:var(--muted)}
+.err{color:var(--err);font-size:.87rem;font-weight:600}
+input[type=password],input[type=text],input[type=tel],input[type=email],input[type=date],input[type=datetime-local],input[type=search],select,textarea{
+  width:100%;min-height:46px;padding:10px 12px;border:1px solid var(--input-line);border-radius:6px;background:var(--input);color:var(--ink);font:inherit;font-size:16px;min-width:0}
+input[type=search],select.filter{background:var(--surface);border-color:var(--line)}
+textarea{min-height:84px;resize:vertical}
+.invalid input,.invalid select,.invalid textarea{border-color:var(--err);border-width:2px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{position:relative}
+.chip input{position:absolute;opacity:0;inset:0;width:100%;height:100%;margin:0;cursor:pointer}
+.chip span{display:flex;align-items:center;min-height:42px;padding:8px 12px;border:1px solid var(--input-line);border-radius:6px;background:var(--input);font-size:.94rem}
+.chip input:checked+span{background:var(--accent);border-color:var(--accent);color:var(--accent-ink);font-weight:600}
+.chip input:focus-visible+span{outline:3px solid var(--accent);outline-offset:2px}
+.more{border-top:1px solid var(--line);padding-top:8px}
+.more summary{cursor:pointer;color:var(--accent);font-weight:600;min-height:40px;display:flex;align-items:center}
+.more[open] summary{margin-bottom:10px}
+.why{display:grid;gap:6px;padding-top:8px}
+.whyrow{display:flex;justify-content:space-between;gap:10px;font-size:.9rem}.whyrow .hint{display:block}
+.steps{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px;scrollbar-width:thin}
+.steps button{flex:none;border:1px solid var(--line);background:var(--surface);border-radius:6px;padding:7px 10px;font-size:.85rem;white-space:nowrap}
+.steps button[aria-current="step"]{background:var(--accent);border-color:var(--accent);color:var(--accent-ink);font-weight:700}
+.scorerow{display:grid;gap:6px;padding-block:8px;border-top:1px solid var(--line)}
+.scorerow:first-child{border-top:0;padding-top:0}
+.scorerow .chips{display:grid;grid-template-columns:repeat(5,1fr)}
+.scorerow .chip span{justify-content:center;font-variant-numeric:tabular-nums;padding:8px 0}
+.total{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px;border-radius:6px;background:var(--bg);font-variant-numeric:tabular-nums}
+.total b{font-size:1.5rem}
+.pill{display:inline-flex;align-items:center;padding:2px 8px;border-radius:4px;font-size:.78rem;font-weight:700;letter-spacing:.02em;white-space:nowrap}
+.p-Hot,.p-rejected{background:var(--hot-soft);color:var(--hot)}
+.p-Warm,.p-hold,.p-pending{background:var(--warm-soft);color:var(--warm)}
+.p-Cold{background:var(--cold-soft);color:var(--cold)}
+.p-approved,.p-Booked{background:var(--ok-soft);color:var(--ok)}
+.p-prospect{background:var(--cold-soft);color:var(--cold)}.p-converted{background:var(--ok-soft);color:var(--ok)}.p-overdue{background:var(--hot-soft);color:var(--hot)}
+.p-none{background:var(--bg);color:var(--muted)}
+.item{width:100%;text-align:left;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:12px 14px;display:grid;gap:4px;min-width:0}
+.item .name{font-weight:700;overflow-wrap:anywhere}
+.list{display:grid;gap:8px}
+dl{margin:0;display:grid;gap:8px}
+dl>div{display:grid;grid-template-columns:minmax(0,2fr) minmax(0,3fr);gap:10px;padding-bottom:7px;border-bottom:1px solid var(--line)}
+dl>div:last-child{border-bottom:0;padding-bottom:0}
+dt{color:var(--muted);font-size:.88rem}dd{margin:0;overflow-wrap:anywhere;font-weight:500}
+.tiles{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+@media (min-width:560px){.tiles{grid-template-columns:repeat(4,minmax(0,1fr))}}
+.tile{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:10px 12px;min-width:0}
+.tile b{display:block;font-size:1.2rem;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+.tile span{font-size:.82rem;color:var(--muted)}
+.filters{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px}
+.filters>:first-child{grid-column:1/-1}
+.note{padding:10px 12px;border-radius:6px;background:var(--warm-soft);color:var(--ink);font-size:.92rem}
+.note.bad{background:var(--hot-soft)}
+.empty{padding:26px 16px;text-align:center;color:var(--muted);border:1px dashed var(--line);border-radius:8px}
+.stamp{justify-self:start;transform:rotate(-3deg);border:3px double var(--ok);color:var(--ok);padding:6px 12px;border-radius:4px;display:grid;line-height:1.25}
+.stamp b{font-size:1.05rem;letter-spacing:.14em}.stamp span{font-size:.8rem}
+nav.tabs{position:fixed;left:0;right:0;bottom:0;z-index:6;background:var(--surface);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom,0px);padding-left:env(safe-area-inset-left,0px);padding-right:env(safe-area-inset-right,0px)}
+nav.tabs .wrap{display:flex}
+nav.tabs button{flex:1 1 0;min-width:0;min-height:58px;background:none;border:0;border-top:3px solid transparent;font-size:.8rem;font-weight:600;color:var(--muted);padding:6px 2px}
+nav.tabs button[aria-current="page"]{color:var(--accent);border-top-color:var(--accent)}
+.badge{display:inline-block;min-width:18px;padding:0 5px;border-radius:9px;background:var(--hot);color:var(--surface);font-size:.72rem;line-height:18px;margin-left:3px}
+#toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(72px + env(safe-area-inset-bottom,0px));z-index:7;background:var(--ink);color:var(--surface);padding:10px 14px;border-radius:6px;font-weight:600;max-width:min(92vw,520px)}
+@media (prefers-reduced-motion:no-preference){.card,.item{transition:border-color .12s}}
+</style>
+</head><body>
+<header class="top"><div class="wrap gut">
+  <h1>Client Evaluation Form</h1>
+  <button class="rolebtn" id="rolebtn" type="button">Sales Executive</button>
+</div></header>
+<div class="wrap gut"><main id="view"></main></div>
+<nav class="tabs" aria-label="Sections"><div class="wrap" id="nav"></div></nav>
+<div id="toast" role="status" aria-live="polite" hidden></div>
+
+<script>
+"use strict";
+/* ---------- helpers ---------- */
+const API="https://script.google.com/macros/s/AKfycbyDOtxqJ1Esh2L5eDi5rSrv3bw0iUfhvGlbrvdiiCH73O8s4CuO93X_hdMNHL44IRf6uA/exec";
+async function api(a,p){const r=await fetch(API,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({a,code:S.code,token:S.token,...(p||{})})});
+ const j=await r.json();if(!j.ok){const e=new Error(j.error);e.server=j.error;throw e}return j}
+const $=(s,r=document)=>r.querySelector(s);
+function h(t,a,...k){const e=document.createElement(t);for(const[n,v]of Object.entries(a||{})){if(v==null||v===false)continue;
+  if(n==="class")e.className=v;else if(n.startsWith("on"))e.addEventListener(n.slice(2),v);else if(n==="value"||n==="checked"||n==="disabled"||n==="hidden"||n==="selected")e[n]=v;else e.setAttribute(n,v===true?"":v)}
+  k.flat(9).forEach(c=>{if(c==null||c===false)return;e.append(c.nodeType?c:String(c))});return e}
+const words=n=>{const v=Number(n)||0;if(!v)return"";const t=x=>String(Math.round(x*100)/100);return"PKR "+v.toLocaleString("en-US")+(v>=1e7?" ("+t(v/1e7)+" crore)":v>=1e5?" ("+t(v/1e5)+" lakh)":"")};
+const money=n=>{const v=Number(String(n||"").replace(/[^\d.]/g,""));return v?"PKR "+v.toLocaleString("en-US"):""};
+const fmtDate=s=>{if(!s)return"";const d=new Date(s);return isNaN(d)?s:d.toLocaleDateString("en-GB",{day:"2-digit",month:"short",year:"numeric"})};
+const fmtDT=s=>{if(!s)return"";const d=new Date(s);return isNaN(d)?s:d.toLocaleString("en-GB",{day:"2-digit",month:"short",year:"numeric",hour:"2-digit",minute:"2-digit"})};
+function store(k,v){try{if(v===undefined)return JSON.parse(localStorage.getItem(k)||"null");if(v===null)localStorage.removeItem(k);else localStorage.setItem(k,JSON.stringify(v))}catch(e){return null}}
+let toastT;function toast(m){const t=$("#toast");t.textContent=m;t.hidden=false;clearTimeout(toastT);toastT=setTimeout(()=>t.hidden=true,3500)}
+const yn=["Yes","No"];
+
+/* ---------- the form, as data ---------- */
+const CRITERIA=[
+ ["s_fin","Financial capacity","Budget and down payment match the unit price"],
+ ["s_intent","Buying intent","Client is serious, not only comparing prices"],
+ ["s_urgency","Urgency","Client has a clear booking timeline"],
+ ["s_auth","Decision authority","Decision maker is involved"],
+ ["s_fit","Unit fit","Available unit meets the requirement"],
+ ["s_docs","Document readiness","CNIC and payment documents can be provided"]];
+const isRef=d=>/customer|Employee|Corporate|Friend|agent/i.test(d.leadSource||"");
+const LEAD={Direct:["Walk-in","Inbound call","Sales team cold call"],Digital:["Facebook","Instagram","Google / website","Property portal","WhatsApp campaign"],Offline:["Site hoarding / billboard","Newspaper / TV","Flyer / SMS","Exhibition / expo"],Referral:["Existing customer","Employee","Corporate tie-up","Friend / family"],Agent:["Real estate agent / dealer"]};
+const yes=(d,k)=>d[k]==="Yes";
+const notReady=d=>d.visitOutcome==="Needs time"||d.visitOutcome==="Not interested in this project";
+const inDays=n=>{const t=new Date(Date.now()+n*864e5),p=x=>String(x).padStart(2,"0");return t.getFullYear()+"-"+p(t.getMonth()+1)+"-"+p(t.getDate())};
+const SECTIONS=[
+{id:"client",title:"Client",fields:[
+ {k:"project",l:"Project",t:"project",req:1},
+ {k:"name",l:"Client name",req:1},
+ {k:"mobile",l:"Mobile no.",t:"tel",req:1,note:d=>{const k=digits(d.mobile);if(k.length<10)return"";const m=myForms().find(x=>x.fid!==S.F.fid&&x.summary?.mobileKey===k);return m?"You already sent this client: "+m.fid+" ("+STATUS[m.status]+").":""}},
+ {k:"occupation",l:"Occupation",t:"radio",req:1,o:["Salaried","Business","Professional","Other"]},
+ {k:"occupationOther",l:"Other occupation",when:d=>d.occupation==="Other",req:1},
+ {k:"address",l:"Address",t:"area",req:1},
+ {k:"leadChannel",l:"How did this client reach us?",t:"radio",req:1,o:Object.keys(LEAD),rerender:1,onset:d=>{const o=LEAD[d.leadChannel];d.leadSource=o.length===1?o[0]:""}},
+ {k:"leadSource",l:"Lead source",t:"radio",req:1,o:d=>LEAD[d.leadChannel]||[],when:d=>d.leadChannel&&LEAD[d.leadChannel].length>1},
+ {k:"refName",l:"Referrer / agent name",when:isRef},
+ {k:"refContact",l:"Referrer / agent contact",t:"tel",when:isRef},
+ {k:"agency",l:"Agency name",when:d=>d.leadChannel==="Agent"},
+ {k:"commission",l:"Commission applicable?",t:"radio",o:yn,when:isRef},
+ {k:"cnic",l:"CNIC / passport no.",t:"cnic",more:1,hint:"CNIC format: 42101-1234567-1"},
+ {k:"city",l:"City",req:1,more:1},
+ {k:"relation",l:"Father's / husband's name",more:1},
+ {k:"clientType",l:"Client type",t:"radio",o:["Resident","Overseas Pakistani","Foreign national"],more:1},
+ {k:"employer",l:"Employer / business name",more:1},{k:"designation",l:"Designation",more:1,when:d=>d.occupation!=="Business"},
+ {k:"existing",l:"Existing Gohar customer?",t:"radio",o:yn,more:1},
+ {k:"whatsapp",l:"WhatsApp no. (if different)",t:"tel",more:1},{k:"altPhone",l:"Alternate contact no.",t:"tel",more:1},
+ {k:"email",l:"Email",t:"email",more:1},{k:"officeAddress",l:"Office address",t:"area",more:1},{k:"bestTime",l:"Best time to contact",more:1},
+ {k:"campaign",l:"Campaign name",more:1,when:d=>d.leadChannel==="Digital"||d.leadChannel==="Offline"},{k:"firstContact",l:"Date of first contact",t:"date",more:1},
+ {k:"seName",l:"Sales Executive",req:1,more:1},{k:"empId",l:"Employee ID",more:1},{k:"site",l:"Site / sales office",more:1}]},
+{id:"unit",title:"Unit and budget",fields:[
+ {k:"unitType",l:"Unit type",t:"radio",req:1,o:["Apartment","Penthouse","Shop","Office","Plot"]},
+ {k:"unitNo",l:"Unit no. offered",req:1},
+ {k:"price",l:"Quoted price (PKR)",t:"money",req:1},
+ {k:"budget",l:"Client's total budget (PKR)",t:"money",req:1,note:d=>{const p=+d.price,b=+d.budget;if(!p||!b)return"";return b>=p?"Budget covers the quoted price.":"Budget is "+Math.round((1-b/p)*100)+"% below the quoted price."}},
+ {k:"mode",l:"Payment mode",t:"radio",req:1,o:["Full payment","Installments","Bank financing"]},
+ {k:"down",l:"Down payment available (PKR)",t:"money",when:d=>d.mode&&d.mode!=="Full payment"},
+ {k:"monthly",l:"Monthly installment capacity (PKR)",t:"money",when:d=>d.mode==="Installments"},
+ {k:"bedrooms",l:"Bedrooms",t:"num",more:1,when:d=>d.unitType==="Apartment"||d.unitType==="Penthouse"},
+ {k:"purpose",l:"Purpose of purchase",t:"radio",o:["Own use","Investment","Rental income","Business use"],more:1},
+ {k:"tower",l:"Tower / block",more:1},{k:"unitSize",l:"Unit size (sq. ft)",t:"num",more:1},{k:"sizeReq",l:"Size required (sq. ft)",t:"num",more:1},
+ {k:"floorPref",l:"Floor / facing preference",more:1},{k:"altUnit",l:"Alternate unit no.",more:1},{k:"otherProjects",l:"Other projects considered",more:1},
+ {k:"special",l:"Special request / discount asked",t:"area",more:1},
+ {k:"funds",l:"Source of funds",t:"radio",o:["Salary","Business","Savings","Property sale","Overseas remittance","Other"],more:1},
+ {k:"fundsOther",l:"Other source of funds",when:d=>d.funds==="Other",more:1},
+ {k:"tax",l:"Tax status",t:"radio",o:["Filer","Non-filer","Not known"],more:1}]},
+{id:"signals",title:"Buying signals",fields:[
+ {k:"visitOutcome",l:"Result of this visit",t:"radio",req:1,rerender:1,o:["Ready to proceed","Needs time","Not interested in this project"],onset:d=>{if(notReady(d)&&!d.nextFollowUp)d.nextFollowUp=inDays(14)}},
+ {k:"reasons",l:"What is holding the client back?",t:"multi",o:["Price","Location","Unit size","Payment plan","Timing","Family decision","Other"],when:notReady},
+ {k:"nextFollowUp",l:"Next follow-up date",t:"date",req:1,when:notReady},
+ {k:"openOther",l:"Open to other or future projects?",t:"radio",req:1,rerender:1,o:yn,when:notReady},
+ {k:"prefArea",l:"Preferred area / location",when:d=>notReady(d)&&yes(d,"openOther")},
+ {k:"visited",l:"Site visited?",t:"radio",req:1,o:yn},
+ {k:"visits",l:"No. of visits",t:"radio",o:["1","2","3+"],when:d=>yes(d,"visited")},
+ {k:"expected",l:"Expected booking",t:"radio",req:1,o:["Within 7 days","Within 30 days","Within 90 days","Later"],when:d=>d.visitOutcome!=="Not interested in this project"},
+ {k:"decisionMaker",l:"Who decides?",t:"radio",req:1,o:["Client","Spouse","Family","Business partner"]},
+ {k:"dmMet",l:"Decision maker met?",t:"radio",req:1,o:yn,when:d=>d.decisionMaker&&d.decisionMaker!=="Client"},
+ {k:"token",l:"Ready to pay token?",t:"radio",req:1,o:yn},
+ {k:"tokenAmt",l:"Token amount (PKR)",t:"money",when:d=>yes(d,"token")},
+ {k:"fit",l:"Does this unit match the requirement?",t:"radio",req:1,o:["Exact match","Close match","Not a good match"]},
+ {k:"scores",l:"Client score",t:"score"},
+ {k:"docs",l:"Documents collected",t:"multi",o:["CNIC copy","Visiting card","Unit quotation","Payment plan"],more:1},
+ {k:"seRemarks",l:"Sales Executive remarks",t:"area",more:1},
+ {k:"objections",l:"Client's objections / concerns",t:"area",more:1},{k:"liked",l:"What the client liked",t:"area",more:1},
+ {k:"visitDate",l:"Latest visit date",t:"date",when:d=>yes(d,"visited"),more:1},{k:"accompanied",l:"Accompanied by",when:d=>yes(d,"visited"),more:1},
+ {k:"hoVisit",l:"Proposed Head Office visit",t:"datetime",more:1}]}];
+function autoScores(d){const p=+d.price||0,b=+d.budget||0,r=p?b/p:0,vis=parseInt(d.visits)||0,n=(d.docs||[]).length;
+ const out={};
+ out.s_fin=[!p||!b?1:r>=1?5:r>=.9?4:r>=.75?3:r>=.5?2:1,!p||!b?"Enter price and budget":r>=1?"Budget covers the price":"Budget is "+Math.round(r*100)+"% of the price"];
+ out.s_intent=[1+(yes(d,"token")?2:0)+(yes(d,"visited")?1:0)+(vis>=2?1:0),[yes(d,"token")&&"token ready",yes(d,"visited")&&"site visited",vis>=2&&"repeat visit"].filter(Boolean).join(", ")||"No token or visit yet"];
+ out.s_urgency=[{"Within 7 days":5,"Within 30 days":4,"Within 90 days":2,"Later":1}[d.expected]||1,d.expected||"No booking date yet"];
+ out.s_auth=[d.decisionMaker==="Client"?5:yes(d,"dmMet")?4:d.decisionMaker?2:1,d.decisionMaker==="Client"?"Client decides":yes(d,"dmMet")?"Decision maker met":d.decisionMaker?"Decision maker not met":"Not recorded"];
+ out.s_fit=[{"Exact match":5,"Close match":3,"Not a good match":1}[d.fit]||1,d.fit||"Not recorded"];
+ out.s_docs=[Math.min(5,1+(d.cnic?1:0)+n),(d.cnic?"CNIC no. taken, ":"No CNIC no., ")+n+" document"+(n===1?"":"s")];
+ return out}
+function applyScores(d){const a=autoScores(d);for(const k in a)d[k]=String(a[k][0]);return a}
+const ALL=SECTIONS.flatMap(s=>s.fields);
+const scoreOf=d=>CRITERIA.reduce((n,[k])=>n+(Number(d[k])||0),0);
+const scoreDone=d=>CRITERIA.every(([k])=>d[k]);
+const catOf=n=>n>=24?"Hot":n>=15?"Warm":"Cold";
+const CATACT={Hot:"Send to Head Office",Warm:"Project Manager decides: send or follow up",Cold:"Keep in site follow-up; do not send"};
+const STATUS={pending:"Waiting for PM",hold:"On hold",rejected:"Not qualified",approved:"Approved",prospect:"Follow-up",converted:"Converted"};
+const ROLE={se:"Sales Executive",pm:"Project Manager",ho:"Head Office",owner:"Owner"};
+const CHECKS=[["c_details","Client details and contact no. verified"],["c_vacant","Unit is vacant and available for sale"],["c_price","Quoted price matches the approved price list"],["c_met","Client met or spoken to by Project Manager"]];
+
+/* ---------- state ---------- */
+const S={db:null,user:null,dl:null,uid:null,me:null,isOwner:false,canEdit:false,ready:false,role:"se",
+ subs:[],bank:[],roles:[],joins:[],myJoin:null,projects:[],tab:"new",detail:null,step:0,F:null,errs:{},
+ pmSeg:"pending",pmProject:"",bq:"",bproj:"",bcat:"",offline:false,loaded:false,bankOn:false,teamOn:false,busy:false,
+ unlocked:false,passOn:false,passLoaded:false,passDoc:null,passErr:"",fails:0,lockUntil:0,unlockedSalt:"",lastActive:0,moreOpen:{},code:"",token:null,team:[]};
+function newForm(){const d=new Date(),p=n=>String(n).padStart(2,"0");
+ const rnd=Math.random().toString(36).slice(2,6).toUpperCase();
+ return{fid:"CEF-"+String(d.getFullYear()).slice(2)+p(d.getMonth()+1)+p(d.getDate())+"-"+rnd,created:d.toISOString(),data:{city:"Karachi",firstContact:d.getFullYear()+"-"+p(d.getMonth()+1)+"-"+p(d.getDate()),...(store("cef-defaults")||{}),seName:store("cef-defaults")?.seName||S.me?.name||""},resubmit:false}}
+S.F=store("cef-draft")||null;if(!S.F||!S.F.fid)S.F=newForm();
+let draftT;const saveDraft=()=>{clearTimeout(draftT);draftT=setTimeout(()=>store("cef-draft",S.F),400)};
+const myForms=()=>{const d=S.subs.find(x=>x.uid===S.uid);return d?Object.values(d.forms||{}).sort((a,b)=>(b.submittedAt||"").localeCompare(a.submittedAt||"")):[]};
+const allForms=()=>S.subs.flatMap(s=>Object.values(s.forms||{}).map(f=>({...f,ownerUid:s.uid})));
+const canApprove=()=>S.isOwner||S.role==="pm";
+const canBank=()=>S.isOwner||S.role==="pm"||S.role==="ho";
+const canHO=()=>S.isOwner||S.role==="ho";
+
+/* ---------- field rendering ---------- */
+function blank(f,d){if(f.t==="score")return!scoreDone(d);const v=d[f.k];return v==null||v===""||(Array.isArray(v)&&!v.length)}
+function radios(key,opts,d,onch,type){return h("div",{class:"chips",role:type==="checkbox"?"group":"radiogroup"},opts.map((o,i)=>{
+ const checked=type==="checkbox"?(d[key]||[]).includes(o):d[key]===String(o);
+ return h("label",{class:"chip"},h("input",{type:type||"radio",name:"f-"+key,id:"f-"+key+"-"+String(o).replace(/\W+/g,"-"),value:String(o),checked,onchange:e=>{
+  if(type==="checkbox"){const s=new Set(d[key]||[]);e.target.checked?s.add(o):s.delete(o);d[key]=[...s]}else d[key]=String(o);onch()}}),h("span",null,String(o)))}))}
+function fieldEl(f,d,onch){
+ const id="f-"+f.k,err=S.errs[f.k],wrap=h("div",{class:"field"+(err?" invalid":""),"data-k":f.k,hidden:f.when&&!f.when(d)});
+ const lab=[f.l,f.req&&h("span",{class:"req","aria-hidden":"true"}," *")];
+ const text=(attrs)=>h("input",{id,value:d[f.k]||"",oninput:e=>{d[f.k]=e.target.value;onch(false)},...attrs});
+ let ctrl;
+ switch(f.t){
+  case"radio":wrap.append(h("div",{class:"lab"},lab),radios(f.k,typeof f.o==="function"?f.o(d):f.o,d,()=>{f.onset?.(d);onch(true,f.rerender)}));break;
+  case"multi":wrap.append(h("div",{class:"lab"},lab),radios(f.k,f.o,d,()=>onch(false),"checkbox"));break;
+  case"score":wrap.append(h("div",{class:"lab"},lab),h("div",{id:"total"}));break;
+  case"project":
+   if(S.projects.length){const list=[...S.projects];if(d.project&&!list.includes(d.project))list.push(d.project);
+    ctrl=h("select",{id,onchange:e=>{d.project=e.target.value;onch(false)}},h("option",{value:""},"Select project"),list.map(p=>h("option",{value:p,selected:d.project===p},p)))}
+   else ctrl=text({type:"text"});
+   wrap.append(h("label",{for:id},lab),ctrl);break;
+  case"area":wrap.append(h("label",{for:id},lab),h("textarea",{id,oninput:e=>{d[f.k]=e.target.value;onch(false)}},d[f.k]||""));break;
+  case"date":wrap.append(h("label",{for:id},lab),text({type:"date"}));break;
+  case"datetime":wrap.append(h("label",{for:id},lab),text({type:"datetime-local"}));break;
+  case"tel":wrap.append(h("label",{for:id},lab),text({type:"tel",autocomplete:"off"}));break;
+  case"email":wrap.append(h("label",{for:id},lab),text({type:"email"}));break;
+  case"num":wrap.append(h("label",{for:id},lab),text({type:"text",inputmode:"numeric"}));break;
+  case"money":{const prev=h("div",{class:"hint"},words(d[f.k]));
+   wrap.append(h("label",{for:id},lab),h("input",{id,type:"text",inputmode:"numeric",value:d[f.k]||"",oninput:e=>{e.target.value=e.target.value.replace(/[^\d]/g,"");d[f.k]=e.target.value;prev.textContent=words(d[f.k]);onch(false)}}),prev);break}
+  case"cnic":wrap.append(h("label",{for:id},lab),h("input",{id,type:"text",autocomplete:"off",value:d[f.k]||"",oninput:e=>{const v=e.target.value;
+    if(/^[\d-]*$/.test(v)){const x=v.replace(/-/g,"").slice(0,13);e.target.value=x.length>12?x.slice(0,5)+"-"+x.slice(5,12)+"-"+x.slice(12):x.length>5?x.slice(0,5)+"-"+x.slice(5):x}d[f.k]=e.target.value;onch(false)}}));break;
+  default:wrap.append(h("label",{for:id},lab),text({type:"text"}));
+ }
+ if(f.hint)wrap.append(h("div",{class:"hint"},f.hint));
+ if(f.note)wrap.append(h("div",{class:"hint","data-note":f.k},f.note(d)||""));
+ if(err)wrap.append(h("div",{class:"err"},err));
+ return wrap}
+function paintTotal(d){const t=$("#total");if(!t)return;const a=applyScores(d),n=scoreOf(d),c=catOf(n);
+ t.replaceChildren(h("div",{class:"total"},h("div",null,h("b",null,n)," / 30"),h("div",{style:"text-align:right"},h("span",{class:"pill p-"+c},c),h("div",{class:"hint"},CATACT[c]))),
+  h("div",{class:"why"},CRITERIA.map(([k,l])=>h("div",{class:"whyrow"},h("span",null,h("b",null,l),h("span",{class:"hint"}," "+a[k][1])),h("span",{class:"mono"},a[k][0]+"/5")))))}
+function validate(fields,d){const e={};fields.forEach(f=>{if(f.when&&!f.when(d))return;
+ if(f.req&&blank(f,d))e[f.k]="This field is required.";
+ if(f.t==="score"&&blank(f,d))e[f.k]="Score all 6 items to continue.";
+ if(f.k==="mobile"&&d.mobile&&d.mobile.replace(/\D/g,"").length<10)e.mobile="Enter a full mobile number with at least 10 digits.";
+ if(f.k==="email"&&d.email&&!/^\S+@\S+\.\S+$/.test(d.email))e.email="Enter a valid email address.";
+ if(f.k==="cnic"&&d.cnic&&/^[\d-]+$/.test(d.cnic)&&d.cnic.replace(/-/g,"").length!==13)e.cnic="A CNIC has 13 digits. Check the number.";
+});return e}
+function recordEl(d){return SECTIONS.map(s=>{const rows=s.fields.flatMap(f=>{if(f.when&&!f.when(d))return[];
+  if(f.t==="score")return CRITERIA.map(([k,n])=>[n,(d[k]||"")+" / 5"]);
+  let v=d[f.k];if(blank(f,d))return[];if(f.t==="money")v=money(v);else if(f.t==="date")v=fmtDate(v);else if(f.t==="datetime")v=fmtDT(v);else if(Array.isArray(v))v=v.join(", ");return[[f.l,v]]});
+ return rows.length?h("section",{class:"card"},h("h3",null,s.title),h("dl",null,rows.map(([a,b])=>h("div",null,h("dt",null,a),h("dd",null,String(b)))))):null})}
+const scoreCard=d=>{const n=scoreOf(d),c=catOf(n);return h("div",{class:"total"},h("div",null,h("b",null,n)," / 30"),h("div",{style:"text-align:right"},h("span",{class:"pill p-"+c},c),h("div",{class:"hint"},CATACT[c])))};
+
+/* ---------- views ---------- */
+function setTab(t){S.tab=t;S.detail=null;renderAll(true);window.scrollTo(0,0)}
+function renderNav(){const pend=allForms().filter(f=>f.status==="pending").length;
+ const tabs=[["new","New form"],["mine","My forms"]];
+ if(canApprove())tabs.push(["approve","Approvals"]);
+ if(canBank())tabs.push(["bank","Data bank"]);
+ if(S.isOwner)tabs.push(["team","Team"]);
+ $("#nav").replaceChildren(...tabs.map(([k,l])=>h("button",{type:"button",id:"nav-"+k,"aria-current":S.tab===k?"page":null,onclick:()=>setTab(k)},l,k==="approve"&&pend?h("span",{class:"badge"},pend):null)));
+ $("#rolebtn").textContent=S.isOwner?ROLE.owner:ROLE[S.role]}
+function statusBar(){
+ if(!S.loaded)return null;
+ if(S.offline)return h("div",{class:"note"},"Saved data can't be reached right now. Check your connection. Your unsent form stays on this phone.");
+ return null}
+function renderAll(force){const v=$("#view");if(S.loaded&&!S.uid&&!S.offline)return viewLogin(v);renderNav();
+ if(!force){const a=document.activeElement;if(S.tab==="new"||(a&&v.contains(a)&&/INPUT|TEXTAREA|SELECT/.test(a.tagName))||(S.detail&&S.tab==="approve"))return}
+ ({new:viewNew,mine:viewMine,approve:viewApprove,bank:viewBank,team:viewTeam,account:viewAccount}[S.tab]||viewNew)(v)}
+
+function pitchFrom(d,meta){if(S.F.data.name&&!S.F.resubmit){toast("Send or clear your open form first.");setTab("new");return}
+ const F=newForm(),data=F.data;SECTIONS[0].fields.forEach(f=>{if(!["project","seName","empId","site"].includes(f.k)&&d[f.k]!=null)data[f.k]=d[f.k]});
+ ["budget","mode","down","monthly","funds","fundsOther","tax","purpose","decisionMaker","dmMet","docs"].forEach(k=>{if(d[k]!=null)data[k]=d[k]});
+ delete data.project;data.parentFid=meta.fid;data.rootFid=d.rootFid||meta.fid;data.originSE=d.originSE||d.seName||"";data.originLead=d.originLead||d.leadSource||"";
+ S.F=F;S.step=0;S.errs={};saveDraft();setTab("new");toast("Client details filled in. Choose the new project.")}
+function viewNew(v){const F=S.F,total=SECTIONS.length,rev=S.step>=total;applyScores(F.data);
+ const steps=h("div",{class:"steps",role:"navigation","aria-label":"Form sections"},[...SECTIONS.map((s,i)=>h("button",{type:"button",id:"step-"+s.id,"aria-current":S.step===i?"step":null,onclick:()=>{S.step=i;S.errs={};viewNew($("#view"))}},(i+1)+". "+s.title)),h("button",{type:"button",id:"step-review","aria-current":rev?"step":null,onclick:()=>goReview()},"Review")]);
+ const head=h("div",{class:"row"},h("span",{class:"mono"},F.fid),h("span",{class:"small muted"},fmtDate(F.created)));
+ const nodes=[statusBar(),head,F.data.parentFid&&h("div",{class:"note"},"Follow-up pitch for a client from "+F.data.parentFid+". First Sales Executive: "+(F.data.originSE||"not recorded")+"."),steps];
+ if(rev){const errs=validate(ALL,F.data);const n=Object.keys(errs).length;
+  nodes.push(h("h2",null,"Review before sending"),scoreCard(F.data),...recordEl(F.data).filter(Boolean));
+  if(n)nodes.push(h("div",{class:"note bad"},n+" required "+(n===1?"item is":"items are")+" missing. Tap a section above to complete "+(n===1?"it":"them")+"."));
+  nodes.push(h("div",{class:"btns"},h("button",{class:"btn",type:"button",onclick:()=>{S.step=total-1;viewNew($("#view"))}},"Back"),h("button",{class:"btn primary",id:"submit",type:"button",disabled:!!n||S.busy,onclick:submitForm},F.resubmit?"Resend to Project Manager":"Send to Project Manager")));
+  if(!F.resubmit)nodes.push(h("button",{class:"link",type:"button",id:"clear",onclick:clearForm},"Clear form and start again"));
+ }else{const s=SECTIONS[S.step];
+  const card=h("section",{class:"card"},h("h2",null,s.title));
+  const redraw=(vis,re)=>{saveDraft();applyScores(F.data);
+   if(re){const y=window.scrollY;viewNew($("#view"));window.scrollTo(0,y);return}
+   if(vis)card.querySelectorAll("[data-k]").forEach(w=>{const f=ALL.find(x=>x.k===w.dataset.k);w.hidden=!!(f&&f.when&&!f.when(F.data))});
+   card.querySelectorAll("[data-note]").forEach(n=>{const f=ALL.find(x=>x.k===n.dataset.note);n.textContent=f.note(F.data)||""});paintTotal(F.data)};
+  const clearErr=e=>{const w=e.target.closest("[data-k]");if(w&&S.errs[w.dataset.k]){delete S.errs[w.dataset.k];w.classList.remove("invalid");w.querySelector(".err")?.remove()}};
+  card.addEventListener("input",clearErr);card.addEventListener("change",clearErr);
+  s.fields.filter(f=>!f.more).forEach(f=>card.append(fieldEl(f,F.data,redraw)));
+  const more=s.fields.filter(f=>f.more),hasErr=more.some(f=>S.errs[f.k]);
+  card.append(h("details",{class:"more",open:hasErr||S.moreOpen[s.id],ontoggle:e=>S.moreOpen[s.id]=e.target.open},h("summary",{id:"more-"+s.id},"More details (optional)"),h("div",{class:"stack"},more.map(f=>fieldEl(f,F.data,redraw)))));
+  nodes.push(card,h("div",{class:"btns"},S.step>0&&h("button",{class:"btn",type:"button",onclick:()=>{S.step--;S.errs={};viewNew($("#view"));window.scrollTo(0,0)}},"Back"),h("button",{class:"btn primary",id:"next",type:"button",onclick:()=>{
+   S.errs=validate(s.fields,F.data);if(Object.keys(S.errs).length){viewNew($("#view"));$(".invalid")?.scrollIntoView({block:"center"});return}
+   S.step++;viewNew($("#view"));window.scrollTo(0,0)}},S.step===total-1?"Review":"Next")));
+ }
+ v.replaceChildren(...nodes.filter(Boolean));
+ if(!rev)paintTotal(F.data);
+ $("[aria-current=step]",v)?.scrollIntoView({block:"nearest",inline:"center"})}
+function goReview(){S.step=SECTIONS.length;S.errs={};viewNew($("#view"));window.scrollTo(0,0)}
+function clearForm(){store("cef-draft",null);S.F=newForm();S.step=0;S.errs={};viewNew($("#view"));toast("Form cleared")}
+function dbErr(e){return e&&e.server||"Couldn't reach the server. Check your connection and try again."}
+async function submitForm(){if(!S.uid)return;
+ S.busy=true;viewNew($("#view"));const F=S.F,d=F.data,n=scoreOf(d),cat=catOf(n);
+ const form={fid:F.fid,status:"pending",submittedAt:new Date().toISOString(),createdAt:F.created,createdBy:S.uid,data:JSON.parse(JSON.stringify(d)),pm:null,
+  summary:{client:d.name,project:d.project,unit:d.unitNo||"",score:n,category:cat,price:d.price||"",mobileKey:digits(d.mobile)}};
+ if(yes(d,"visited")&&!d.visitDate)form.data.visitDate=F.created.slice(0,10);
+ try{await api("submit",{form});await sync();
+  store("cef-defaults",{project:d.project||"",site:d.site||"",seName:d.seName||"",empId:d.empId||"",city:d.city||""});store("cef-draft",null);S.F=newForm();S.step=0;S.errs={};S.busy=false;toast("Sent to Project Manager");setTab("mine")
+ }catch(e){S.busy=false;viewNew($("#view"));toast(dbErr(e))}}
+
+function formItem(f,on){const s=f.summary||{};return h("button",{class:"item",type:"button",onclick:on},
+ h("div",{class:"row"},h("span",{class:"name"},s.client||"Client"),h("span",{class:"pill p-"+f.status},STATUS[f.status]||f.status)),
+ h("div",{class:"small muted"},[s.project,s.unit&&"Unit "+s.unit,money(s.price)].filter(Boolean).join(" · ")),
+ h("div",{class:"row small"},h("span",{class:"mono"},f.fid),s.category&&h("span",{class:"pill p-"+s.category},s.category+" "+s.score+"/30")),dueEl(f))}
+const dueEl=f=>{if(f.status!=="prospect"||!f.nextFollowUp)return null;const late=f.nextFollowUp<inDays(0);return h("span",{class:"pill "+(late?"p-overdue":"p-prospect")},(late?"Overdue: ":"Next: ")+fmtDate(f.nextFollowUp))};
+function viewMine(v){const list=myForms();
+ if(S.detail){const f=list.find(x=>x.fid===S.detail);if(f)return mineDetail(v,f);S.detail=null}
+ const fu=list.filter(f=>f.status==="prospect").sort((a,b)=>(a.nextFollowUp||"9").localeCompare(b.nextFollowUp||"9")),rest=list.filter(f=>f.status!=="prospect");
+ const open=f=>()=>{S.detail=f.fid;renderAll(true);window.scrollTo(0,0)};
+ v.replaceChildren(...[statusBar(),h("h2",null,"My forms"),
+  fu.length&&h("h3",null,"Follow-ups ("+fu.length+")"),fu.length&&h("div",{class:"list"},fu.map(f=>formItem(f,open(f)))),
+  fu.length&&rest.length&&h("h3",null,"Other forms"),
+  list.length?h("div",{class:"list"},rest.map(f=>formItem(f,open(f)))):
+  h("div",{class:"empty"},S.db?"Forms you send to your Project Manager appear here with their status. Start one from New form.":"Your sent forms appear here.")].filter(Boolean))}
+function followLog(f){const l=(f?.followups||[]);return l.length?h("section",{class:"card"},h("h3",null,"Follow-up log"),h("dl",null,[...l].reverse().map(x=>h("div",null,h("dt",null,fmtDT(x.at)),h("dd",null,x.note))))):null}
+function mineDetail(v,f){const nodes=[h("button",{class:"link",type:"button",onclick:()=>{S.detail=null;renderAll(true)}},"Back to My forms"),
+ h("div",{class:"row"},h("h2",null,f.summary?.client||"Client"),h("span",{class:"pill p-"+f.status},STATUS[f.status])),h("div",{class:"mono"},f.fid)];
+ if(f.pm)nodes.push(h("section",{class:"card"},h("h3",null,"Project Manager decision"),h("div",null,f.pm.remarks||"No remarks"),h("div",{class:"small muted"},(f.pm.name||"")+" · "+fmtDT(f.pm.at))));
+ if(f.status==="approved")nodes.push(h("div",{class:"card"},"This client is saved in the data bank. Send the client to Head Office."));
+ if(f.convertedTo)nodes.push(h("div",{class:"card"},"This client moved to another project: "+f.convertedTo+"."));
+ if(f.status==="prospect"){const fb={note:"",next:f.nextFollowUp||""};
+  nodes.push(h("div",{class:"btns"},h("button",{class:"btn primary",id:"pitch",type:"button",onclick:()=>pitchFrom(f.data||{},{fid:f.fid})},"Pitch another project")),
+   followLog(f),h("section",{class:"card"},h("h3",null,"Log a follow-up"),
+    h("div",{class:"field"},h("label",{for:"fu-note"},"What happened?"),h("textarea",{id:"fu-note",oninput:e=>fb.note=e.target.value})),
+    h("div",{class:"field"},h("label",{for:"fu-next"},"Next follow-up date"),h("input",{id:"fu-next",type:"date",value:fb.next,oninput:e=>fb.next=e.target.value})),
+    h("button",{class:"btn",id:"fu-save",type:"button",onclick:async()=>{if(!fb.note.trim()){toast("Write what happened first.");return}
+     try{await api("followup",{fid:f.fid,note:fb.note.trim(),next:fb.next});await sync();toast("Follow-up saved");document.activeElement?.blur?.();renderAll(true)}catch(x){toast(dbErr(x))}}},"Save follow-up")))}
+ if(f.status==="hold"&&f.data)nodes.push(h("button",{class:"btn primary",type:"button",id:"edit",onclick:()=>{S.F={fid:f.fid,created:f.createdAt||f.submittedAt,data:JSON.parse(JSON.stringify(f.data)),resubmit:true};S.step=0;S.errs={};saveDraft();setTab("new")}},"Edit and resend"));
+ if(f.data)nodes.push(scoreCard(f.data),...recordEl(f.data).filter(Boolean));
+ v.replaceChildren(...nodes)}
+
+function viewApprove(v){const forms=allForms();
+ if(S.detail){const f=forms.find(x=>x.fid===S.detail);if(f&&f.status==="pending")return reviewView(v,f);S.detail=null}
+ const projs=[...new Set(forms.map(f=>f.summary?.project).filter(Boolean))].sort();
+ const seg=forms.filter(f=>f.status===S.pmSeg&&(!S.pmProject||f.summary?.project===S.pmProject)).sort((a,b)=>(a.submittedAt||"").localeCompare(b.submittedAt||""));
+ const cnt=s=>forms.filter(f=>f.status===s).length;
+ v.replaceChildren(...[statusBar(),h("h2",null,"Approvals"),
+  h("div",{class:"steps"},[["pending","Waiting"],["hold","On hold"],["prospect","Follow-up"],["rejected","Not qualified"]].map(([k,l])=>h("button",{type:"button","aria-current":S.pmSeg===k?"step":null,onclick:()=>{S.pmSeg=k;renderAll(true)}},l+" ("+cnt(k)+")"))),
+  projs.length>1&&h("select",{class:"filter",id:"pm-project","aria-label":"Filter by project",onchange:e=>{S.pmProject=e.target.value;e.target.blur();renderAll(true)}},h("option",{value:""},"All projects"),projs.map(p=>h("option",{value:p,selected:S.pmProject===p},p))),
+  seg.length?h("div",{class:"list"},seg.map(f=>formItem(f,f.status==="pending"?()=>{S.detail=f.fid;S.review={checks:{},remarks:"",name:S.me?.name||"",err:""};renderAll(true);window.scrollTo(0,0);fetchBankDup(f)}:()=>toast(f.pm?.remarks||STATUS[f.status])))):
+  h("div",{class:"empty"},S.pmSeg==="pending"?"Forms sent by Sales Executives wait here for your sign-off.":"Nothing here yet.")].filter(Boolean))}
+const digits=s=>String(s||"").replace(/\D/g,"");
+async function fetchBankDup(f){const d=f.data||{};try{const j=await api("dups",{cnicKey:digits(d.cnic),mobileKey:digits(d.mobile)});
+ if(j.fids.length&&S.review&&S.detail===f.fid){S.review.bankDup=j.fids;reviewView($("#view"),f)}}catch(e){}}
+function dupes(d,fid){const nor=digits;const c=nor(d.cnic),m=nor(d.mobile);
+ const same=x=>(c&&nor(x.cnic)===c)||(m&&nor(x.mobile)===m);
+ return[...(S.review?.bankDup||[]).filter(x=>x!==fid&&x!==d.parentFid&&x!==d.rootFid).map(x=>({fid:x,where:"data bank"})),...allForms().filter(f=>f.fid!==fid&&f.data&&f.status==="pending"&&same(f.data)).map(f=>({fid:f.fid,where:"waiting for approval"}))]}
+function reviewView(v,f){const d=f.data||{},R=S.review||(S.review={checks:{},remarks:"",name:S.me?.name||"",err:""});
+ const cat=catOf(scoreOf(d)),dup=dupes(d,f.fid),own=f.createdBy===S.uid&&!S.isOwner;
+ const act=async(status)=>{R.err="";
+  if(!R.name.trim())R.err="Type your name to sign.";
+  else if((status==="hold"||status==="rejected")&&!R.remarks.trim())R.err="Add remarks so the Sales Executive knows what to do next.";
+  else if(status==="approved"&&!CHECKS.every(([k])=>R.checks[k]==="Yes"))R.err="All four checks must be Yes to approve.";
+  else if(status==="approved"&&cat==="Cold")R.err="A Cold client (below 15) stays in follow-up. Use Keep for follow-up.";
+  else if(status==="approved"&&d.visitOutcome==="Not interested in this project")R.err="The client isn't interested in this project. Use Keep for follow-up.";
+  else if(own)R.err="You can't sign off a form you prepared. Another Project Manager has to approve it.";
+  if(R.err){reviewView($("#view"),f);return}
+  S.busy=true;reviewView($("#view"),f);
+  try{await api("decide",{fid:f.fid,status,checks:R.checks,remarks:R.remarks.trim(),name:R.name.trim()});await sync();
+   S.busy=false;S.detail=null;S.review=null;toast(status==="approved"?"Approved and saved to data bank":status==="prospect"?"Saved to data bank for follow-up":status==="hold"?"Put on hold":"Marked not qualified");renderAll(true);window.scrollTo(0,0)
+  }catch(e){S.busy=false;R.err=dbErr(e);reviewView($("#view"),f)}};
+ const dd=R.checks,card=h("section",{class:"card"},h("h3",null,"Project Manager sign-off"),
+  ...CHECKS.map(([k,l])=>h("div",{class:"field"},h("div",{class:"lab"},l),radios(k,yn,dd,()=>{}))),
+  h("div",{class:"field"},h("label",{for:"pm-remarks"},"Project Manager remarks"),h("textarea",{id:"pm-remarks",oninput:e=>R.remarks=e.target.value},R.remarks)),
+  h("div",{class:"field"},h("label",{for:"pm-name"},"Your name (signature)"),h("input",{id:"pm-name",type:"text",value:R.name,oninput:e=>R.name=e.target.value}),h("div",{class:"hint"},"Your name, your account and the time are recorded with this decision.")),
+  R.err&&h("div",{class:"err",role:"alert"},R.err),
+  h("div",{class:"btns"},h("button",{class:"btn"+(notReady(d)||cat==="Cold"?"":" primary"),id:"approve",type:"button",disabled:S.busy,onclick:()=>act("approved")},"Approve and save to data bank")),
+  h("div",{class:"btns"},h("button",{class:"btn"+(notReady(d)||cat==="Cold"?" primary":""),id:"keep",type:"button",disabled:S.busy,onclick:()=>act("prospect")},"Keep for follow-up")),
+  h("div",{class:"btns"},h("button",{class:"btn",id:"hold",type:"button",disabled:S.busy,onclick:()=>act("hold")},"Hold for follow-up"),h("button",{class:"btn danger",id:"reject",type:"button",disabled:S.busy,onclick:()=>act("rejected")},"Not qualified")));
+ v.replaceChildren(...[h("button",{class:"link",type:"button",onclick:()=>{S.detail=null;renderAll(true)}},"Back to Approvals"),
+  h("div",{class:"row"},h("h2",null,d.name||"Client"),h("span",{class:"mono"},f.fid)),
+  h("div",{class:"small muted"},"Sent "+fmtDT(f.submittedAt)+" by "+(d.seName||"Sales Executive")),
+  scoreCard(d),
+  d.parentFid&&h("div",{class:"note"},"Follow-up pitch from "+d.parentFid+". First Sales Executive: "+(d.originSE||"not recorded")+"."),
+  notReady(d)&&h("div",{class:"note"},"Visit result: "+d.visitOutcome+". Next follow-up "+fmtDate(d.nextFollowUp)+". Open to other projects: "+(d.openOther||"not recorded")+"."),
+  dup.length&&h("div",{class:"note"},"Same CNIC or mobile found: "+dup.map(x=>x.fid+" ("+x.where+")").join(", ")+". Check for a duplicate client before approving."),
+  ...recordEl(d).filter(Boolean),card].filter(Boolean))}
+
+const isPros=b=>b.recordType==="prospect";
+function bankFiltered(){const q=S.bq.trim().toLowerCase(),mn=Number(S.bmin)||0,match=S.btype||mn;return S.bank.filter(b=>{const d=b.data||{};
+ if(S.bseg==="approved"&&isPros(b))return false;if(S.bseg==="prospect"&&!isPros(b))return false;
+ if(match&&d.openOther==="No")return false;if(S.btype&&d.unitType!==S.btype)return false;if(mn&&(Number(d.budget)||0)<mn)return false;
+ if(S.bproj&&b.project!==S.bproj)return false;if(S.bcat&&b.category!==S.bcat)return false;
+ return!q||[b.fid,d.name,d.mobile,d.cnic,d.unitNo,d.seName].some(x=>String(x||"").toLowerCase().includes(q))})}
+function bankListEl(){const list=bankFiltered();return list.length?list.map(b=>{const d=b.data||{},o=b.ho?.outcome;return h("button",{class:"item",type:"button",onclick:()=>{S.detail=b.fid;renderAll(true);window.scrollTo(0,0)}},
+  h("div",{class:"row"},h("span",{class:"name"},d.name),h("span",{class:"pill p-"+b.category},b.category+" "+b.score+"/30")),
+  h("div",{class:"small muted"},[b.project,d.unitNo&&"Unit "+d.unitNo,money(d.price)].filter(Boolean).join(" · ")),
+  h("div",{class:"row small"},h("span",{class:"mono"},b.fid),isPros(b)?(b.prospect?.status==="converted"?h("span",{class:"pill p-converted"},"Converted"):h("span",{class:"pill p-prospect"},"Follow-up")):h("span",{class:"pill "+(o==="Booked"?"p-Booked":"p-none")},o||"Head Office pending")),
+  isPros(b)&&b.prospect?.status!=="converted"&&dueEl({status:"prospect",nextFollowUp:allForms().find(x=>x.fid===b.fid)?.nextFollowUp||d.nextFollowUp}))}):[h("div",{class:"empty"},S.bank.length?"No client matches this search.":"Clients appear here after a Project Manager approves their form.")]}
+const IDLE_MS=5*60*1000;
+function passForm(label){let a="",b="";const err=h("div",{class:"err",role:"alert",hidden:true});const say=m=>{err.textContent=m;err.hidden=false};
+ const form=h("form",{class:"stack",id:"pass-form",onsubmit:async e=>{e.preventDefault();err.hidden=true;
+  if(a.length<8)return say("Use at least 8 characters.");if(a!==b)return say("The two passwords don't match.");
+  try{await api("setPassword",{pw:a});lockBank();await sync();form.reset();a=b="";document.activeElement?.blur?.();toast("Password saved. Data bank is locked.");renderAll(true)}catch(x){say(dbErr(x))}}},
+  h("div",{class:"field"},h("label",{for:"pw-new"},"New password"),h("input",{id:"pw-new",type:"password",autocomplete:"new-password",oninput:e=>a=e.target.value})),
+  h("div",{class:"field"},h("label",{for:"pw-again"},"Type it again"),h("input",{id:"pw-again",type:"password",autocomplete:"new-password",oninput:e=>b=e.target.value})),
+  err,h("button",{class:"btn primary",id:"pw-save",type:"submit"},label));return form}
+function lockView(v){const head=[statusBar(),h("h2",null,"Data bank")];let body;
+ if(!S.isOwner&&!S.canEdit)body=h("div",{class:"empty"},"Data bank opens for authorised staff only.");
+ else if(!S.passLoaded)body=h("div",{class:"empty"},"Checking access...");
+ else if(!S.passDoc)body=S.isOwner?h("section",{class:"card"},h("h3",null,"Set the Data bank password"),h("div",{class:"small muted"},"Give this password only to authorised staff. It unlocks this tab for 5 minutes of activity at a time."),passForm("Set password")):h("div",{class:"empty"},"The owner hasn't set a Data bank password yet.");
+ else{let pw="";body=h("section",{class:"card"},h("h3",null,"Locked"),h("form",{class:"stack",id:"unlock-form",onsubmit:async e=>{e.preventDefault();
+   try{const j=await api("unlock",{pw});S.token=j.token;S.unlocked=true;S.passErr="";S.lastActive=Date.now();await sync();document.activeElement?.blur?.();renderAll(true);return}
+   catch(x){S.passErr=dbErr(x);lockView($("#view"))}}},
+  h("div",{class:"field"},h("label",{for:"bank-pass"},"Data bank password"),h("input",{id:"bank-pass",type:"password",autocomplete:"off",oninput:e=>pw=e.target.value})),
+  S.passErr&&h("div",{class:"err",role:"alert"},S.passErr),
+  h("button",{class:"btn primary",id:"unlock",type:"submit"},"Unlock")),
+  S.isOwner&&h("div",{class:"small muted"},"Forgot it? Set a new one from the Team tab."))}
+ v.replaceChildren(...[...head,body].filter(Boolean))}
+function viewBank(v){
+ if(!S.unlocked)return lockView(v);
+ if(S.detail){const b=S.bank.find(x=>x.fid===S.detail);if(b)return bankDetail(v,b);S.detail=null}
+ const appr=S.bank.filter(b=>!isPros(b)),total=appr.reduce((n,b)=>n+(Number(b.data?.price)||0),0),booked=appr.filter(b=>b.ho?.outcome==="Booked").length,pros=S.bank.filter(isPros),conv=pros.filter(b=>b.prospect?.status==="converted").length;
+ const projs=[...new Set(S.bank.map(b=>b.project).filter(Boolean))].sort();
+ const listBox=h("div",{class:"list",id:"banklist"},bankListEl());
+ const repaint=()=>listBox.replaceChildren(...bankListEl());
+ v.replaceChildren(...[statusBar(),h("div",{class:"row"},h("h2",null,"Data bank"),h("div",{style:"display:flex;gap:8px"},S.bank.length>0&&h("button",{class:"btn sm",id:"export",type:"button",onclick:exportCsv},"Export CSV"),h("button",{class:"btn sm",id:"lock",type:"button",onclick:()=>{lockBank();toast("Data bank locked")}},"Lock"))),
+  h("div",{class:"tiles"},[["Approved clients",appr.length],["Follow-up clients",pros.length-conv],["Converted from follow-up",conv],["Booked",booked]].map(([l,n])=>h("div",{class:"tile"},h("b",null,n),h("span",null,l)))),
+  h("div",{class:"small muted"},"Quoted value of approved clients: "+(money(total)||"PKR 0")),
+  h("div",{class:"filters"},h("input",{type:"search",id:"bq",placeholder:"Name, mobile, CNIC, unit or form no.","aria-label":"Search data bank",value:S.bq,oninput:e=>{S.bq=e.target.value;repaint()}}),
+   h("select",{class:"filter",id:"bseg","aria-label":"Record type",onchange:e=>{S.bseg=e.target.value;repaint()}},[["","All records"],["approved","Approved"],["prospect","Follow-up"]].map(([k,l])=>h("option",{value:k,selected:(S.bseg||"")===k},l))),
+   h("select",{class:"filter",id:"bproj","aria-label":"Project",onchange:e=>{S.bproj=e.target.value;repaint()}},h("option",{value:""},"All projects"),projs.map(p=>h("option",{value:p,selected:S.bproj===p},p))),
+   h("select",{class:"filter",id:"bcat","aria-label":"Category",onchange:e=>{S.bcat=e.target.value;repaint()}},h("option",{value:""},"All categories"),["Hot","Warm","Cold"].map(p=>h("option",{value:p,selected:S.bcat===p},p))),
+   h("details",{class:"more",style:"grid-column:1/-1",open:!!(S.btype||S.bmin)},h("summary",{id:"bmatch"},"Find clients for a new project"),h("div",{class:"stack"},
+    h("div",{class:"small muted"},"Clients who said no to other projects are left out. Export CSV gives you this list."),
+    h("select",{class:"filter",id:"btype","aria-label":"Unit type",onchange:e=>{S.btype=e.target.value;repaint()}},h("option",{value:""},"Any unit type"),["Apartment","Penthouse","Shop","Office","Plot"].map(p=>h("option",{value:p,selected:S.btype===p},p))),
+    h("div",{class:"field"},h("label",{for:"bmin"},"Minimum budget (PKR)"),h("input",{id:"bmin",type:"text",inputmode:"numeric",value:S.bmin||"",oninput:e=>{e.target.value=e.target.value.replace(/[^\d]/g,"");S.bmin=e.target.value;repaint()}}))))),
+  listBox].filter(Boolean))}
+function bankDetail(v,b){const d=b.data||{},ho={...(b.ho||{})};
+ const key=b.mobileKey,hist=S.bank.filter(x=>x.fid!==b.fid&&((key&&x.mobileKey===key)||(b.cnicKey&&x.cnicKey===b.cnicKey))).sort((x,y)=>(x.approvedAt||"").localeCompare(y.approvedAt||""));
+ const f=(k,l,type)=>h("div",{class:"field"},h("label",{for:"ho-"+k},l),h("input",{id:"ho-"+k,type:type||"text",value:ho[k]||"",disabled:!canHO(),oninput:e=>ho[k]=e.target.value}));
+ const hoCard=h("section",{class:"card"},h("h3",null,"For Head Office use"),f("receivedBy","Received by"),f("receivedAt","Date / time received","datetime-local"),f("metBy","Client met by"),f("meetDate","Meeting date","date"),
+  h("div",{class:"field"},h("div",{class:"lab"},"Outcome"),canHO()?radios("outcome",["Booked","Follow-up","Declined"],ho,()=>{}):h("div",null,ho.outcome||"Not recorded yet")),
+  f("fileNo","Booking / file no."),
+  canHO()&&h("button",{class:"btn primary",id:"ho-save",type:"button",onclick:async()=>{try{await api("setHo",{fid:b.fid,ho});await sync();toast("Head Office details saved")}catch(e){toast(dbErr(e))}}},"Save Head Office details"));
+ v.replaceChildren(h("button",{class:"link",type:"button",onclick:()=>{S.detail=null;renderAll(true)}},"Back to Data bank"),
+  h("div",{class:"row"},h("h2",null,d.name),h("span",{class:"mono"},b.fid)),
+  h("div",{class:"stamp"},h("b",null,isPros(b)?(b.prospect?.status==="converted"?"CONVERTED":"FOLLOW-UP"):"APPROVED"),h("span",null,b.pm?.name),h("span",null,fmtDT(b.approvedAt))),
+  h("button",{class:"btn primary",id:"pitch-bank",type:"button",onclick:()=>pitchFrom(d,{fid:b.fid})},"Pitch another project"),
+  d.originSE?h("div",{class:"small muted"},"First Sales Executive: "+d.originSE+". First lead source: "+(d.originLead||"not recorded")+"."):document.createTextNode(""),
+  hist.length?h("section",{class:"card"},h("h3",null,"This client's other records"),h("dl",null,hist.map(x=>h("div",null,h("dt",null,x.fid),h("dd",null,[x.project,x.data?.unitNo&&"Unit "+x.data.unitNo,x.ho?.outcome||STATUS[isPros(x)?"prospect":"approved"]].filter(Boolean).join(" · ")))))):document.createTextNode(""),
+  b.pm?.remarks?h("div",{class:"card"},h("h3",null,"Project Manager remarks"),h("div",null,b.pm.remarks)):document.createTextNode(""),
+  followLog(allForms().find(x=>x.fid===b.fid))||document.createTextNode(""),
+  scoreCard(d),...recordEl(d).filter(Boolean),isPros(b)?document.createTextNode(""):hoCard)}
+async function exportCsv(){const flds=ALL.flatMap(f=>f.t==="score"?CRITERIA.map(([k,n])=>({k,l:n})):[f]);
+ const head=["Form no.","Record type","Earlier form no.","First form no.","First Sales Executive","First lead source",...flds.map(f=>f.l),"Score","Category","Approved by","Approved at","PM remarks","Received by","Date / time received","Client met by","Meeting date","Outcome","Booking / file no."];
+ const safe=v=>{let s=Array.isArray(v)?v.join("; "):String(v??"");if(/^[=@\t\r]/.test(s)||(/^[+-]/.test(s)&&!/^[+-]?[\d\s-]+$/.test(s)))s="'"+s;return'"'+s.replace(/"/g,'""')+'"'};
+ const rows=bankFiltered().map(b=>{const d=b.data||{},o=b.ho||{},p=b.pm||{};return[b.fid,isPros(b)?(b.prospect?.status==="converted"?"Converted":"Follow-up"):"Approved",d.parentFid,d.rootFid,d.originSE,d.originLead,...flds.map(f=>d[f.k]),b.score,b.category,p.name,p.at,p.remarks,o.receivedBy,o.receivedAt,o.metBy,o.meetDate,o.outcome,o.fileNo].map(safe).join(",")});
+const url=URL.createObjectURL(new Blob(["\ufeff"+[head.map(safe).join(","),...rows].join("\r\n")],{type:"text/csv"}));const a=h("a",{href:url,download:"client-data-bank.csv"});document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),5000);toast("Data bank exported")}
+function viewTeam(v){const link=location.href.split("#")[0].split("?")[0];
+ const msg=p=>"Assalam o Alaikum "+p.name+",\nClient Evaluation Form ka link: "+link+"\nAapka access code: "+p.code+"\nYeh code kisi ke saath share na karein.";
+ const set=async(u,p,t)=>{try{await api("teamSet",{uid:u,...p});await sync();renderAll(true);toast(t)}catch(e){toast(dbErr(e))}};
+ const people=S.team.filter(p=>p.role!=="owner").map(p=>h("div",{class:"item"},
+   h("div",{class:"row"},h("span",{class:"name"},p.name),p.active?h("span",{class:"mono"},p.code):h("span",{class:"pill p-rejected"},"Access off")),
+   h("select",{"aria-label":"Role for "+p.name,onchange:e=>set(p.uid,{role:e.target.value},"Role updated")},["se","pm","ho"].map(k=>h("option",{value:k,selected:p.role===k},ROLE[k]))),
+   h("div",{class:"btns"},p.active&&h("a",{class:"btn sm",href:"https://wa.me/?text="+encodeURIComponent(msg(p)),target:"_blank",rel:"noopener"},"Send on WhatsApp"),
+    h("button",{class:"btn sm",type:"button",onclick:()=>set(p.uid,{newCode:true},"New code created")},"New code"),
+    h("button",{class:"btn sm",type:"button",onclick:()=>set(p.uid,{active:!p.active},p.active?"Access turned off":"Access turned on")},p.active?"Turn off access":"Turn on access"))));
+ let nm="",rl="se",np="";
+ const saveP=async l=>{try{await api("setProjects",{projects:l});await sync();renderAll(true)}catch(e){toast(dbErr(e))}};
+ v.replaceChildren(...[statusBar(),h("h2",null,"Team and projects"),
+  h("section",{class:"card"},h("h3",null,"Add a person"),
+   h("div",{class:"field"},h("label",{for:"t-name"},"Name"),h("input",{id:"t-name",type:"text",oninput:e=>nm=e.target.value})),
+   h("div",{class:"field"},h("label",{for:"t-role"},"Role"),h("select",{id:"t-role",onchange:e=>rl=e.target.value},["se","pm","ho"].map(k=>h("option",{value:k},ROLE[k])))),
+   h("button",{class:"btn primary",id:"t-add",type:"button",onclick:async()=>{try{await api("teamAdd",{name:nm,role:rl});document.activeElement?.blur?.();await sync();renderAll(true);toast("Person added with an access code")}catch(e){toast(dbErr(e))}}},"Add person")),
+  h("section",{class:"card"},h("h3",null,"People ("+people.length+")"),people.length?h("div",{class:"list"},people):h("div",{class:"empty"},"Add your sales team above. Each person gets their own access code.")),
+  h("section",{class:"card"},h("h3",null,"Data bank password"),h("div",{class:"small muted"},S.passDoc?"Last changed "+fmtDT(S.passDoc.changedAt)+". Change it when someone leaves.":"No password set yet. The Data bank stays closed until you set one."),passForm(S.passDoc?"Change password":"Set password")),
+  h("section",{class:"card"},h("h3",null,"Projects"),S.projects.length?h("div",{class:"chips"},S.projects.map(p=>h("button",{class:"btn sm",type:"button",title:"Remove "+p,onclick:()=>saveP(S.projects.filter(x=>x!==p))},p+" ×"))):null,
+   h("div",{class:"field"},h("label",{for:"newproj"},"Add project"),h("input",{id:"newproj",type:"text",oninput:e=>np=e.target.value})),h("button",{class:"btn",id:"addproj",type:"button",onclick:()=>{const t=np.trim();if(t&&!S.projects.includes(t)){document.activeElement?.blur?.();saveP([...S.projects,t].sort())}}},"Add project"))].filter(Boolean))}
+function viewAccount(v){v.replaceChildren(...[statusBar(),h("h2",null,"Your account"),h("section",{class:"card"},h("dl",null,h("div",null,h("dt",null,"Name"),h("dd",null,S.me?.name||"")),h("div",null,h("dt",null,"Role"),h("dd",null,S.isOwner?ROLE.owner:ROLE[S.role]))),
+  h("button",{class:"btn",id:"signout",type:"button",onclick:()=>{store("cef-code",null);location.reload()}},"Sign out of this phone"))].filter(Boolean))}
+function viewLogin(v){let c="";$("#rolebtn").hidden=true;$("#nav").replaceChildren();
+ const err=h("div",{class:"err",role:"alert",hidden:true});
+ v.replaceChildren(h("form",{class:"card login",id:"login",onsubmit:async e=>{e.preventDefault();err.hidden=true;S.code=c.trim();const btn=$("#login-go");btn.disabled=true;
+   try{const j=await api("login");store("cef-code",S.code);applyMe(j.me);S.tab="new";await startData()}catch(x){err.textContent=dbErr(x);err.hidden=false;S.code=""}btn.disabled=false}},
+  h("h2",null,"Sign in"),h("div",{class:"small muted"},"Enter the access code you received from Head Office. You only need to do this once on this phone."),
+  h("div",{class:"field"},h("label",{for:"login-code"},"Access code"),h("input",{id:"login-code",type:"text",autocapitalize:"characters",autocomplete:"off",oninput:e=>c=e.target.value})),err,
+  h("button",{class:"btn primary",id:"login-go",type:"submit"},"Sign in")))}
+/* ---------- data wiring ---------- */
+function lockBank(){S.unlocked=false;S.token=null;S.bank=[];S.bq="";S.passErr="";if(S.tab==="bank"){S.detail=null;renderAll(true)}}
+function applyMe(m){S.me=m;S.uid=m.uid;S.isOwner=m.isOwner;S.canEdit=m.canEdit;S.role=m.isOwner?"owner":m.role;S.db=true;$("#rolebtn").hidden=false;if(!S.F.data.seName&&m.name)S.F.data.seName=m.name}
+async function sync(){const j=await api("sync");applyMe(j.me);const by={};j.forms.forEach(f=>{(by[f.ownerUid]=by[f.ownerUid]||{})[f.fid]=f});
+ S.subs=Object.keys(by).map(u=>({uid:u,forms:by[u]}));S.projects=j.projects;S.passDoc=j.bankSet?{changedAt:j.bankChanged}:null;S.passLoaded=true;S.team=j.team||[];
+ if(S.unlocked&&j.tokenValid===false)lockBank();if(j.bank)S.bank=j.bank;S.offline=false}
+let polling=false;async function poll(){if(document.hidden||!S.uid)return;try{await sync();renderAll()}catch(e){if(e.server&&/access code/.test(e.server)){store("cef-code",null);location.reload();return}S.offline=true;renderAll()}}
+async function startData(){renderAll(true);await poll();renderAll(true);if(!polling){polling=true;setInterval(poll,30000);document.addEventListener("visibilitychange",poll)}}
+async function boot(){S.loaded=true;S.code=store("cef-code")||"";if(!S.code){renderAll(true);return}
+ try{const j=await api("login");applyMe(j.me);await startData()}catch(e){if(e.server){store("cef-code",null);S.code=""}else{S.offline=true}renderAll(true)}}
+$("#rolebtn").addEventListener("click",()=>setTab("account"));
+["pointerdown","keydown"].forEach(n=>document.addEventListener(n,()=>{if(S.unlocked)S.lastActive=Date.now()},{passive:true}));
+const idleCheck=()=>{if(S.unlocked&&Date.now()-S.lastActive>IDLE_MS){lockBank();toast("Data bank locked after 5 minutes without activity")}};
+setInterval(idleCheck,15000);document.addEventListener("visibilitychange",idleCheck);
+renderAll(true);boot();
+</script>
+
+</body></html>
